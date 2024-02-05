@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  pharmacy-recommendation-redis:
+    container_name: pharmacy-recommendation-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: ywonchae1/pharmacy-proj-redis
+    ports:
+      - "6379:6379"
+  pharmacy-recommendation-database:
+    container_name: pharmacy-recommendation-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: ywonchae1/pharmacy-proj-database
+    environment:
+      - MARIADB_DATABASE=pharmacy-recommendation
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD} # 외부에서 환경변수 주입 env 파일과 관련, HashiCorp Vault 고려할 것
+    volumes:
+      - ./database/config:/etc/mysql/conf.d # db 설정 초기화
+    ports:
+      - "3306:3306"
