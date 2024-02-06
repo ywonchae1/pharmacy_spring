@@ -14,6 +14,10 @@ spring:
       on-profile: common
 
   # 공통으로 설정할 값을 설정하며 개발
+kakao:
+  rest:
+    api:
+      key: ${KAKAO_REST_API_KEY}
 
 ---
 spring:
